@@ -45,22 +45,22 @@ public class InputView {
             this.checkDuplicateMenu( duplicateTest, menuName );
 
         } catch ( NumberFormatException e ) {
-            throw new NumberFormatException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요"); // 메뉴 갯수의 숫자 형식 아닐 경우
+            throw new NumberFormatException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."); // 메뉴 갯수의 숫자 형식 아닐 경우
         } catch ( IndexOutOfBoundsException e ) {
-            throw new IndexOutOfBoundsException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요"); // 메뉴 입력 형식이 다른 경우
+            throw new IndexOutOfBoundsException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."); // 메뉴 입력 형식이 다른 경우
         } catch ( IllegalArgumentException e ) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요"); // 메뉴가 빈 값 이거나 갯수가 1개 이상이 아닌 경우
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."); // 메뉴가 빈 값 이거나 갯수가 1개 이상이 아닌 경우
         }
     }
 
     private void checkDuplicateMenu ( Set<String> testSet, String name ) {
         if ( !testSet.add( name ) ) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요"); // 주문한 메뉴에 중복 메뉴가 존재하는 경우
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."); // 주문한 메뉴에 중복 메뉴가 존재하는 경우
         }
     }
     private void checkAvailableMenu( String name ) {
         if ( !Menu.getMenu().contains( name ) ) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요");
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
         }
     }
     private void checkForm( String name, int number ) {

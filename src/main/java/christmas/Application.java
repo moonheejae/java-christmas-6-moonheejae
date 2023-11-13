@@ -22,7 +22,7 @@ public class Application {
                 inputView.inputCompleteMsg( DATE );
                 break;
 
-            } catch ( IllegalArgumentException e ) {
+            } catch ( IllegalArgumentException | IndexOutOfBoundsException e ) {
                 System.out.println( e.getMessage() );
             }
         }

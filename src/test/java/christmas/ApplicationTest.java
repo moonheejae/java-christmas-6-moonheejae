@@ -40,11 +40,39 @@ class ApplicationTest extends NsTest {
             assertThat(output()).contains("[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.");
         });
     }
+    @Test
+    void 날짜_예외_테스트_존재하지않는날짜() {
+        assertSimpleTest(() -> {
+            runException("32");
+            assertThat(output()).contains("[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.");
+        });
+    }
 
     @Test
     void 주문_예외_테스트() {
         assertSimpleTest(() -> {
-            runException("3", "제로콜라-a");
+            runException("3", "피자-a");
+            assertThat(output()).contains("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+        });
+    }
+    @Test
+    void 주문_예외_테스트_0개입력() {
+        assertSimpleTest(() -> {
+            runException("13", "피자-0");
+            assertThat(output()).contains("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+        });
+    }
+    @Test
+    void 주문_예외_테스트_중복메뉴() {
+        assertSimpleTest(() -> {
+            runException("13", "피자-1, 피자-2");
+            assertThat(output()).contains("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+        });
+    }
+    @Test
+    void 주문_예외_테스트_형식오류() {
+        assertSimpleTest(() -> {
+            runException("13", "피자:1,햄버거:2");
             assertThat(output()).contains("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
         });
     }

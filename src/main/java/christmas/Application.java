@@ -19,10 +19,10 @@ public class Application {
             }
         }
 
-        Customer menu = new Customer();
+        Customer customer = new Customer();
         while(true) {
             try{
-                inputView.orderMenu( menu );
+                inputView.orderMenu( customer );
                 inputView.completeOrderMsg( DATE );
                 break;
 
@@ -32,6 +32,9 @@ public class Application {
         }
 
         OutputView outputView = new OutputView();
-        outputView.printMenu( menu );
+        int originPrice = outputView.printMenu( customer );
+
+        Event event = new Event();
+        int totalDiscountPrice = event.getDiscount( originPrice, customer, DATE );
     }
 }

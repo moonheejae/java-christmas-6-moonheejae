@@ -3,7 +3,7 @@ package christmas;
 import java.util.Map;
 
 public class OutputView {
-    public void printMenu( Customer menu ) {
+    public int printMenu( Customer menu ) {
         int totalPrice = 0;
         System.out.println("\n<주문 메뉴>");
 
@@ -19,6 +19,8 @@ public class OutputView {
         System.out.println("\n<할인 전 총주문 금액>");
         String formattedNumber = String.format("%,d", totalPrice);
         System.out.println( formattedNumber + "원");
+
+        return totalPrice;
     }
 
     private int sumOriginPrice ( int totalPrice, String menuName, int number ) {
@@ -26,6 +28,7 @@ public class OutputView {
             if ( menu.getName().equalsIgnoreCase( menuName ) ) {
 
                 totalPrice += menu.getPrice() * number;
+                return totalPrice;
             }
         }
         return totalPrice;

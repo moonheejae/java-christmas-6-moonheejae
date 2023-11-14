@@ -4,7 +4,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Event {
 
@@ -12,7 +11,7 @@ public class Event {
     final int MONTH = 12;
     final String FREEGIFT = "샴페인";
 
-    void giveBadge( Customer customer, OutputView outputView, int discount ){
+    void giveBadge( Customer customer, int discount ){
         if ( discount >= 20000 ) {
             customer.badge = "산타";
         } else if ( discount >= 10000 ) {
@@ -20,7 +19,6 @@ public class Event {
         } else if ( discount >= 5000 ) {
             customer.badge = "별";
         }
-        outputView.printBadge( customer );
     }
     private boolean isWeekday( int DATE ) {
         DayOfWeek dayOfWeek = this.today( DATE );
@@ -61,7 +59,7 @@ public class Event {
             totalDiscountPrice += special;
         }
         if ( customer.getFreeGiftNum() > 0 ) {
-            int gift = this.freeGift( customer.getFreeGiftNum(), FREEGIFT );
+            int gift = this.freeGift( customer.getFreeGiftNum() );
             outputView.printMsg("증정 이벤트", gift);
             totalDiscountPrice += gift;
         }
@@ -69,12 +67,9 @@ public class Event {
         return totalDiscountPrice;
     }
 
-    void isFreeGift( Customer customer, int freeGiftNum ) {
-        customer.freeGiftNum = freeGiftNum;
-    }
-    private int freeGift( int giftNum, String menuName ) {
+    private int freeGift( int giftNum ) {
         for (Menu menu : Menu.values()) {
-            if ( menu.getName().equalsIgnoreCase(menuName) ) {
+            if ( menu.getName().equalsIgnoreCase(FREEGIFT) ) {
                 return menu.getPrice() * giftNum;
             }
         }

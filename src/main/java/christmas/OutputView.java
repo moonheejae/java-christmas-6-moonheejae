@@ -23,15 +23,14 @@ public class OutputView {
 
         return totalPrice;
     }
-    int readFreeGift( String gift, int price ){
+    void readFreeGift( Customer customer, String gift, int price ){
         System.out.println("\n<증정 메뉴>");
         if ( price >= 120000 ) {
             int number = price / 120000;
             System.out.println(gift + " " + number + "개");
-            return number;
+            customer.freeGiftNum = number;
         }
         System.out.println("없음");
-        return 0;
     }
 
     int readDiscount( Event event, Customer customer, int DATE ) {
@@ -46,22 +45,21 @@ public class OutputView {
 
         return totalDiscount;
     }
-    void printBadge( Customer customer ){
+    void readBadge( Customer customer, Event event, int discountPrice ){
         System.out.println("\n<12월 이벤트 배지>");
+        event.giveBadge( customer, discountPrice );
         if( customer.badge == null ) {
             System.out.println("없음");
-        } else if ( customer.badge != null ){
-            System.out.println(customer.badge);
+            return;
         }
+        System.out.println(customer.badge);
     }
 
-    int readFinalPrice( int origin, int discount ){
+    void readFinalPrice( int origin, int discount ){
         System.out.println("\n<할인 후 예상 결제 금액>");
         int finalPrice = origin - discount;
         String formattedPrice = String.format("%,d", finalPrice);
         System.out.println( formattedPrice + "원");
-
-        return finalPrice;
     }
     void printMsg( String type, int price ) {
         String formattedPrice = this.formattedPrice( price );
@@ -83,6 +81,4 @@ public class OutputView {
         }
         return totalPrice;
     }
-
-
 }

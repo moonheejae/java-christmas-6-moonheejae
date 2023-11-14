@@ -8,6 +8,7 @@ public class Application {
 
         InputView inputView = new InputView();
         int DATE = 0;
+
         while(true) {
             try{
                 inputView.welcomeMsg();
@@ -32,17 +33,16 @@ public class Application {
         }
 
         OutputView outputView = new OutputView();
+        Event event = new Event();
+
         int originPrice = outputView.printMenu( customer );
 
-        Event event = new Event();
-        int freeGiftNum = outputView.readFreeGift( event.FREEGIFT, originPrice );
-        event.isFreeGift( customer, freeGiftNum );
+        outputView.readFreeGift( customer, event.FREEGIFT, originPrice );
 
         int discountPrice = outputView.readDiscount( event, customer, DATE );
-        int finalPrice = outputView.readFinalPrice( originPrice, discountPrice );
+        outputView.readFinalPrice( originPrice, discountPrice );
 
-        event.giveBadge( customer, outputView, discountPrice );
-
+        outputView.readBadge( customer, event, discountPrice );
 
     }
 }

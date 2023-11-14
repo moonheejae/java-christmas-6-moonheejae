@@ -1,5 +1,8 @@
 package christmas;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Application {
     public static void main(String[] args) {
 
@@ -16,15 +19,19 @@ public class Application {
             }
         }
 
+        Customer menu = new Customer();
         while(true) {
             try{
-                inputView.readMenu();
-                inputView.inputCompleteMsg( DATE );
+                inputView.orderMenu( menu );
+                inputView.completeOrderMsg( DATE );
                 break;
 
             } catch ( IllegalArgumentException | IndexOutOfBoundsException e ) {
                 System.out.println( e.getMessage() );
             }
         }
+
+        OutputView outputView = new OutputView();
+        outputView.printMenu( menu );
     }
 }

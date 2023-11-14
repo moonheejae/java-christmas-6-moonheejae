@@ -17,7 +17,7 @@ public class InputView {
         return this.validDate( input );
     }
 
-    public void readMenu() {
+    public void orderMenu( Customer menu ) {
         System.out.println("주문하실 메뉴를 메뉴와 개수를 알려 주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)");
         String input = Console.readLine();
 
@@ -26,13 +26,22 @@ public class InputView {
         for ( String in : inputMenu ) {
 
             this.validMenu( duplicateTest, in );
+            this.makeOrderMenu( menu, in );
         }
     }
 
-    public void inputCompleteMsg( int date ) {
+    public void completeOrderMsg( int date ) {
         System.out.println(MONTH + "월 "+ date +"일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!");
     }
 
+    private void makeOrderMenu( Customer orderMenu, String input ) {
+        List<String> menu = List.of( input.trim().split("-") );
+
+        String menuName = menu.get(0).trim();
+        int menuNum = Integer.parseInt( menu.get(1) );
+
+        orderMenu.putOrderList( menuName, menuNum );
+    }
     private void validMenu( Set<String> duplicateTest, String input ) {
         try {
             List<String> menu = List.of( input.trim().split("-") );

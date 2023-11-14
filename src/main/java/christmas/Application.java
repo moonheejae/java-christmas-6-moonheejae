@@ -35,6 +35,14 @@ public class Application {
         int originPrice = outputView.printMenu( customer );
 
         Event event = new Event();
-        int totalDiscountPrice = event.getDiscount( originPrice, customer, DATE );
+        int freeGiftNum = outputView.readFreeGift( event.FREEGIFT, originPrice );
+        event.isFreeGift( customer, freeGiftNum );
+
+        int discountPrice = outputView.readDiscount( event, customer, DATE );
+        int finalPrice = outputView.readFinalPrice( originPrice, discountPrice );
+
+        event.giveBadge( customer, outputView, discountPrice );
+
+
     }
 }

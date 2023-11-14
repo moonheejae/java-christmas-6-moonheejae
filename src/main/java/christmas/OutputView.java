@@ -1,5 +1,6 @@
 package christmas;
 
+import java.text.DecimalFormat;
 import java.util.Map;
 
 public class OutputView {
@@ -17,12 +18,61 @@ public class OutputView {
         }
 
         System.out.println("\n<할인 전 총주문 금액>");
-        String formattedNumber = String.format("%,d", totalPrice);
-        System.out.println( formattedNumber + "원");
+        String formattedPrice = String.format("%,d", totalPrice);
+        System.out.println( formattedPrice + "원");
 
         return totalPrice;
     }
+    int readFreeGift( String gift, int price ){
+        System.out.println("\n<증정 메뉴>");
+        if ( price >= 120000 ) {
+            int number = price / 120000;
+            System.out.println(gift + " " + number + "개");
+            return number;
+        }
+        System.out.println("없음");
+        return 0;
+    }
 
+    int readDiscount( Event event, Customer customer, int DATE ) {
+        System.out.println("\n<혜택 내역>");
+        int totalDiscount = event.getDiscount(this, customer, DATE);
+        if ( totalDiscount == 0){
+            System.out.println("없음");
+        }
+        System.out.println("\n<총혜택 금액>");
+        String formattedTotalPrice = formattedPrice(totalDiscount);
+        System.out.println( formattedTotalPrice + "원");
+
+        return totalDiscount;
+    }
+    void printBadge( Customer customer ){
+        System.out.println("\n<12월 이벤트 배지>");
+        if( customer.badge == null ) {
+            System.out.println("없음");
+        } else if ( customer.badge != null ){
+            System.out.println(customer.badge);
+        }
+    }
+
+    int readFinalPrice( int origin, int discount ){
+        System.out.println("\n<할인 후 예상 결제 금액>");
+        int finalPrice = origin - discount;
+        String formattedPrice = String.format("%,d", finalPrice);
+        System.out.println( formattedPrice + "원");
+
+        return finalPrice;
+    }
+    void printMsg( String type, int price ) {
+        String formattedPrice = this.formattedPrice( price );
+        if ( price > 0 ) {
+            System.out.println(type + ": " + formattedPrice + "원");
+        }
+    }
+    String formattedPrice( int price ) {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        return decimalFormat.format( price * -1 );
+    }
     private int sumOriginPrice ( int totalPrice, String menuName, int number ) {
         for ( Menu menu : Menu.values() ) {
             if ( menu.getName().equalsIgnoreCase( menuName ) ) {
@@ -33,4 +83,6 @@ public class OutputView {
         }
         return totalPrice;
     }
+
+
 }

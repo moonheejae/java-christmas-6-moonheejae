@@ -10,8 +10,18 @@ public class Event {
 
     final int YEAR = 2023;
     final int MONTH = 12;
+    final String FREEGIFT = "샴페인";
 
-
+    void giveBadge( Customer customer, OutputView outputView, int discount ){
+        if ( discount >= 20000 ) {
+            customer.badge = "산타";
+        } else if ( discount >= 10000 ) {
+            customer.badge = "트리";
+        } else if ( discount >= 5000 ) {
+            customer.badge = "별";
+        }
+        outputView.printBadge( customer );
+    }
     private boolean isWeekday( int DATE ) {
         DayOfWeek dayOfWeek = this.today( DATE );
         return (dayOfWeek != DayOfWeek.FRIDAY) && (dayOfWeek != DayOfWeek.SATURDAY);
@@ -26,47 +36,46 @@ public class Event {
         return today.getDayOfWeek();
     }
 
-    int getDiscount( int originPrice, Customer customer, int DATE ) {
+    int getDiscount( OutputView outputView, Customer customer, int DATE ) {
 
         int totalDiscountPrice = 0;
 
-        // 디데이 할인
         if ( DATE < 26 ) {
-            totalDiscountPrice += this.dDay( DATE );
+            int dDay = this.dDay( DATE );
+            outputView.printMsg( "크리스마스 디데이 할인", dDay);
+            totalDiscountPrice += dDay;
         }
-
-        // 평일 할인
         if ( this.isWeekday( DATE ) ) {
-
-            totalDiscountPrice += this.day( customer, Menu.Category.DESSERT );
+            int weekday = this.day( customer, Menu.Category.DESSERT );
+            outputView.printMsg( "평일 할인", weekday);
+            totalDiscountPrice += weekday;
         }
-        // 주말 할인
         if ( !this.isWeekday( DATE ) ) {
-
-            totalDiscountPrice += this.day( customer, Menu.Category.MAIN );
+            int weekend = this.day( customer, Menu.Category.MAIN );
+            outputView.printMsg( "주말 할인", weekend);
+            totalDiscountPrice += weekend;
         }
-
-        // 특별 할인
         if ( this.isStar( DATE ) ) {
-            totalDiscountPrice += 1000;
+            int special = 1000;
+            outputView.printMsg("특별 할인", special);
+            totalDiscountPrice += special;
         }
-        // 증정 이벤트
-        int freeGiftNum = this.isFreeGift( originPrice );
-        if ( freeGiftNum > 0 ) {
-            String giftMenu = "샴페인";
-            totalDiscountPrice += this.freeGift( giftMenu ) * freeGiftNum;
+        if ( customer.getFreeGiftNum() > 0 ) {
+            int gift = this.freeGift( customer.getFreeGiftNum(), FREEGIFT );
+            outputView.printMsg("증정 이벤트", gift);
+            totalDiscountPrice += gift;
         }
 
         return totalDiscountPrice;
     }
 
-    private int isFreeGift( int originPrice ) {
-        return originPrice / 120000;
+    void isFreeGift( Customer customer, int freeGiftNum ) {
+        customer.freeGiftNum = freeGiftNum;
     }
-    private int freeGift( String menuName ) {
+    private int freeGift( int giftNum, String menuName ) {
         for (Menu menu : Menu.values()) {
             if ( menu.getName().equalsIgnoreCase(menuName) ) {
-                return menu.getPrice();
+                return menu.getPrice() * giftNum;
             }
         }
         return 0;

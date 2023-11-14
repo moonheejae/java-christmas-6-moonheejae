@@ -3,16 +3,17 @@ package christmas;
 import camp.nextstep.edu.missionutils.Console;
 import org.junit.jupiter.params.shadow.com.univocity.parsers.common.processor.core.AbstractMasterDetailListProcessor;
 
+import java.time.YearMonth;
 import java.util.*;
 
 public class InputView {
 
-    final private int MONTH = 12;
+    Event event = new Event();
     public void welcomeMsg() {
-        System.out.println("안녕하세요! 우테코 식당 " + MONTH + "월 이벤트 플래너입니다.");
+        System.out.println("안녕하세요! 우테코 식당 " + event.MONTH + "월 이벤트 플래너입니다.");
     }
     public int readDate() {
-        System.out.println(MONTH + "월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)");
+        System.out.println(event.MONTH + "월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)");
         String input = Console.readLine();
         return this.validDate( input );
     }
@@ -31,7 +32,7 @@ public class InputView {
     }
 
     public void completeOrderMsg( int date ) {
-        System.out.println(MONTH + "월 "+ date +"일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!");
+        System.out.println(event.MONTH + "월 "+ date +"일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!");
     }
 
     private void makeOrderMenu( Customer orderMenu, String input ) {
@@ -64,12 +65,12 @@ public class InputView {
 
     private void checkDuplicateMenu ( Set<String> testSet, String name ) {
         if ( !testSet.add( name ) ) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."); // 주문한 메뉴에 중복 메뉴가 존재하는 경우
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."); // 주문한 메뉴에 중복 메뉴가 존재 하는 경우
         }
     }
     private void checkAvailableMenu( String name ) {
         if ( !Menu.getMenu().contains( name ) ) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."); // 메뉴에 없는 메뉴인 경우
         }
     }
     private void checkForm( String name, int number ) {
@@ -91,11 +92,16 @@ public class InputView {
             throw new NumberFormatException("[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요."); // 날짜가 숫자 이외의 입력 값인 경우
         }
 
-        if ( 1 > date || date > 31 ) {
+        if ( 1 > date || date > endDate() ) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요."); // 1~31 이외의 입력 값인 경우
         }
 
         return date;
+    }
+
+    private int endDate() {
+        YearMonth dateOfMonth = YearMonth.of( event.YEAR, event.MONTH );
+        return dateOfMonth.lengthOfMonth();
     }
 
 }

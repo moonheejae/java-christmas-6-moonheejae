@@ -34,23 +34,19 @@ public enum Menu {
     public String getName() {
         return name;
     }
-
     public int getPrice() {
         return price;
     }
-
     public Category getCategory() {
         return category;
     }
 
-    // 카테고리 enum
     public enum Category {
         APPETIZER,
         MAIN,
         DESSERT,
         DRINK
     }
-
 
     public static List<String> getMenu() {
         List<String> originMenu = new ArrayList<>();
@@ -61,7 +57,4 @@ public enum Menu {
         }
         return originMenu;
     }
-
-
-
 }

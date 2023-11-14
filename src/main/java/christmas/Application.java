@@ -33,16 +33,15 @@ public class Application {
         }
 
         OutputView outputView = new OutputView();
-        Event event = new Event();
 
         int originPrice = outputView.printMenu( customer );
 
-        outputView.readFreeGift( customer, event.FREEGIFT, originPrice );
+        outputView.readFreeGift( customer, originPrice );
 
-        int discountPrice = outputView.readDiscount( event, customer, DATE );
+        int discountPrice = outputView.readDiscount( customer, DATE );
         outputView.readFinalPrice( originPrice, discountPrice );
 
-        outputView.readBadge( customer, event, discountPrice );
+        outputView.readBadge( customer, discountPrice );
 
     }
 }

@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.Map;
 
 public class OutputView {
+    Event event = new Event();
     public int printMenu( Customer menu ) {
         int totalPrice = 0;
         System.out.println("\n<주문 메뉴>");
@@ -23,17 +24,17 @@ public class OutputView {
 
         return totalPrice;
     }
-    void readFreeGift( Customer customer, String gift, int price ){
+    void readFreeGift( Customer customer, int price ){
         System.out.println("\n<증정 메뉴>");
         if ( price >= 120000 ) {
             int number = price / 120000;
-            System.out.println(gift + " " + number + "개");
+            System.out.println(event.FREEGIFT + " " + number + "개");
             customer.freeGiftNum = number;
         }
         System.out.println("없음");
     }
 
-    int readDiscount( Event event, Customer customer, int DATE ) {
+    int readDiscount( Customer customer, int DATE ) {
         System.out.println("\n<혜택 내역>");
         int totalDiscount = event.getDiscount(this, customer, DATE);
         if ( totalDiscount == 0){
@@ -45,7 +46,7 @@ public class OutputView {
 
         return totalDiscount;
     }
-    void readBadge( Customer customer, Event event, int discountPrice ){
+    void readBadge( Customer customer, int discountPrice ){
         System.out.println("\n<12월 이벤트 배지>");
         event.giveBadge( customer, discountPrice );
         if( customer.badge == null ) {
